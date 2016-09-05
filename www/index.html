@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+  <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+</head>
+<body ng-app="starter">
+<div ng-controller='TodoController'>
+  <div class="bar bar-header bar-assertive">
+
+    <ion-header-bar class="bar-light bar-subheader">
+      <input type="text" placeholder="Search Todo" ng-model="searchTodo">
+    </ion-header-bar>
+
+    <div>
+      <h4 class="title">ToDo List</h4>
+      
+    </div>
+
+  </div>
+
+  //Todo List content
+  <ion-content class="padding has-subheader">
+    <ion-list classs="list">
+      <ion-item class="item" ng-repeat="item in todos | filter: searchTodo | orderBy:'createOn' track by todos.indexOf(item)">
+                  <div class="item item-divider">{{ item.createOn }}</div>
+                  <div class="item-text-wrap">{{todos.indexOf(item)+1}} | {{item.content}}</div>
+                  <hr/>
+                  <div>{{item.completedOn}}</div>
+                 
+                  <div class="">
+                  <button class="button button-icon ion-ios-checkmark-outline" ng-click="completeTodo(todos.indexOf(item))"></button>
+                  <button class="button button-icon ion-ios-close-outline" ng-click="removeTodo(todos.indexOf(item))"></button>
+                  </div>
+                 
+         </ion-item>
+        
+    </ion-list>
+
+    <script id="test-modal.html" type="text/ng-template">
+  	<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-assertive">
+		<h1 class="title">Add Todo</h1>
+		 <div class="buttons">
+      <button class="button button-icon icon ion-close-round" ng-click="closeModal()"></button>
+    </div>
+    </ion-header-bar>
+    <ion-content>
+    <form ng-submit="addTodo()" name="frmTodo">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Description</span>
+          <input type="text" name="txtContent" ng-model="todos.content" maxlength="60" required="true">
+        </label>
+        <div>
+          <span ng-show="frmTodo.txtContent.$touched && frmTodo.txtContent.$invalid">Todo Description must be less then 60 char</span>
+          </div>
+        
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Save</button>
+        </label>
+      </div>
+    </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+</ion-content>
+
+<ion-footer-bar align-title="center" class="bar-assertive">
+ <h1 class="title">Add Todo</h1>
+  <button class="button " ng-click="openModal()"><i class="icon ion-plus-round"></i></button>
+</ion-footer-bar>
+
+
+
+</div>
+</body>
+</html>
